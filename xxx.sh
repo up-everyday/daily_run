@@ -1,2 +1,13 @@
-pwd
-echo "hello world"
+pipeline {
+    agent any
+
+    stages {
+        stage('Prepare') {
+            steps {
+                echo 'Hello World!'
+                
+
+            }
+        }
+        }
+    }
