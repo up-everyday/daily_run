@@ -29,14 +29,19 @@ def get_failed_case_list(files):
     return fail_list
 
 if __name__ == '__main__':
-    #src_dir = r"/home/jenkins/automation_ANSI_CHSP05A_CVM05/SurepayDraft/result/"
+    #src_dir = r"D:\daily_run\ITU_BJRMS22A\181225_143919_r_1"
     src_dir = sys.argv[1]
     failed_case_list = []
     html_list = get_info_files(src_dir)
-    failed_case_list = get_failed_case_list(html_list)
-    failed_case_list = [case.replace('_','/')+'.json' for case in failed_case_list]
+    case_list = get_failed_case_list(html_list)
+
+    for case in case_list:
+        tmp_case = case.replace('_','/')+'.json'
+        if tmp_case.startswith("SPID/"):
+            tmp_case = tmp_case.replace('SPID/', 'SPID-')
+        failed_case_list.append(tmp_case)
     if len(failed_case_list) != 0:
         with open(os.path.join(src_dir,r'failed_case_list.json'), 'wt') as f:
             json.dump(failed_case_list,f, indent=True)
             print("failed_case_list.json is generated!")
-    print("%s ran!"% __name__)
+    print("gen_failed_list.py ran!")
